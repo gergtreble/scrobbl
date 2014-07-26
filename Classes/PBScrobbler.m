@@ -20,6 +20,8 @@
     submissionsCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"totalScrobbled"] longValue];
 
     [self registerForNotifications];
+    [self setIsRunning:YES];
+    self.isPaused = NO;
 
     self.shouldTerminate = NO;
     }
@@ -29,6 +31,8 @@
 -(void)dealloc{
 
     [self unregisterForNotifications];
+    [self setIsRunning:NO];
+    [self setState:SCROBBLER_OFFLINE];
 }
 
 #pragma mark -
@@ -79,13 +83,16 @@
 
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
+    if (self.isPaused) {
+        return YES;
+    }
+    
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier] longValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
             //        1. If it is a radio track and we disallowed to scrobble these
             return YES;
         }
     }
-    
     
     NSString *appString = [NSString stringWithFormat:@"ScrobbleDisabled-%@", [info objectForKey:@"nowPlayingApplication"]];
     if ([[NSUserDefaults standardUserDefaults] valueForKey:appString]) {
@@ -256,6 +263,13 @@
 
 #pragma mark States
 
+-(void)setIsRunning:(BOOL)isRunning{
+    
+    NSLog(@"setting status %d", isRunning);
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:isRunning] forKey:@"scrobblerEnabled"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)setState:(scrobbleState_t)state {
 
 	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:state] forKey:@"scrobblerState"];
@@ -283,13 +297,15 @@
 -(void)registerForNotifications{
 
     center = [NSNotificationCenter defaultCenter];
-    observer = [[PBMediaRemoteNotificationObserver alloc] init];
+    mrNotificationObserver = [[PBMediaRemoteNotificationObserver alloc] init];
     
-    observer.delegate = self;
+    mrNotificationObserver.delegate = self;
     
-    [center addObserver:observer selector:@selector(trackDidChange) name:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil];
+    [center addObserver:mrNotificationObserver selector:@selector(trackDidChange) name:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil];
 
     queueObserver = [[PBScrobblerQueueNotificationObserver alloc] init];
+    
+    stateObserver = [[PBScrobblerStateNotificationObserver alloc] init];
     
     [[[RKObjectManager sharedManager] HTTPClient] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 
@@ -306,8 +322,9 @@
 
 -(void)unregisterForNotifications{
     
-    [observer unregisterForNotifications];
+    [mrNotificationObserver unregisterForNotifications];
     [queueObserver unregisterForNotifications];
+    [stateObserver unregisterForNotifications];
     [center removeObserver:self];
 }
 

@@ -3,7 +3,7 @@ include theos/makefiles/common.mk
 
 ADDITIONAL_OBJCFLAGS = -fobjc-arc -include scrobblprefbundle-Prefix.pch
 export ARCHS = armv7s armv7 arm64
-export TARGET = clang:7.0:5.1
+export TARGET = clang:7.0:5.1.1
 
 BUNDLE_NAME = scrobblprefbundle
 scrobblprefbundle_FILES = scrobblprefbundle.mm lastFmAuthController.mm SharedPrefs.mm ../FXKeychain/FXKeychain/FXKeychain.m SharedNotificationObserver.m queueController.m subscripting.m

@@ -61,6 +61,4 @@
     [self.center postNotificationName:@"deleteTrackInQueue" object:@"com.pb.scrobbled" userInfo:info deliverImmediately:YES];
 }
 
-
-
 @end

@@ -10,4 +10,4 @@ Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=scrobblData
 Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=scrobblData
 Description: Scrobble tracks to last.fm as they are played on your iOS 5, 6 or 7 device.
 dev: chrisw
-Depends: firmware (>= 5.1), applist, preferenceloader
+Depends: firmware (>= 5.1.1), applist, preferenceloader

@@ -21,6 +21,7 @@
 		2FB90F9719352CD200DAB862 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB90F9619352CD200DAB862 /* UIKit.framework */; };
 		2FCC0AB81904197A00E876FA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCC0AB71904197A00E876FA /* Security.framework */; };
 		2FCC0AC01904254300E876FA /* scrobbled.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 2FCC0ABF1904254300E876FA /* scrobbled.entitlements */; };
+		2FDBB7CA198449E500C062B0 /* PBScrobblerStateNotificationObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDBB7C9198449E500C062B0 /* PBScrobblerStateNotificationObserver.m */; };
 		2FDBC2D11982D2B000D2A4D5 /* PBScrobblerQueueNotificationObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDBC2D01982D2AF00D2A4D5 /* PBScrobblerQueueNotificationObserver.m */; };
 		2FEC8A461976D29500A0A587 /* LFError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8A3F1976D29500A0A587 /* LFError.m */; };
 		2FEC8A481976D29500A0A587 /* LFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8A431976D29500A0A587 /* LFSession.m */; };
@@ -108,6 +109,8 @@
 		2FB90F9619352CD200DAB862 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2FCC0AB71904197A00E876FA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2FCC0ABF1904254300E876FA /* scrobbled.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = scrobbled.entitlements; sourceTree = "<group>"; };
+		2FDBB7C8198449E500C062B0 /* PBScrobblerStateNotificationObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBScrobblerStateNotificationObserver.h; sourceTree = "<group>"; };
+		2FDBB7C9198449E500C062B0 /* PBScrobblerStateNotificationObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBScrobblerStateNotificationObserver.m; sourceTree = "<group>"; };
 		2FDBC2CB1982D12100D2A4D5 /* NSDistributedNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDistributedNotificationCenter.h; path = scrobblprefbundle/NSDistributedNotificationCenter.h; sourceTree = "<group>"; };
 		2FDBC2CF1982D2AF00D2A4D5 /* PBScrobblerQueueNotificationObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBScrobblerQueueNotificationObserver.h; sourceTree = "<group>"; };
 		2FDBC2D01982D2AF00D2A4D5 /* PBScrobblerQueueNotificationObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBScrobblerQueueNotificationObserver.m; sourceTree = "<group>"; };
@@ -164,6 +167,8 @@
 				2F007A8A197D2FDA00C9B3AD /* PBMediaRemoteNotificationObserver.h */,
 				2F007A8B197D2FDA00C9B3AD /* PBMediaRemoteNotificationObserver.m */,
 				8E48C3A70E4E38B400651569 /* scrobbled.m */,
+				2FDBB7C8198449E500C062B0 /* PBScrobblerStateNotificationObserver.h */,
+				2FDBB7C9198449E500C062B0 /* PBScrobblerStateNotificationObserver.m */,
 				8E6D2D640E71EACB0014B5E7 /* shared.h */,
 				2FB90F9319352C6100DAB862 /* scrobbled_Prefix.pch */,
 				2F72F6A11983CABB003BA4FB /* versions.h */,
@@ -374,6 +379,7 @@
 				2F086BF419193C0C0084E8B5 /* NSString+MD5.m in Sources */,
 				2FDBC2D11982D2B000D2A4D5 /* PBScrobblerQueueNotificationObserver.m in Sources */,
 				8E48C3AC0E4E38B400651569 /* scrobbled.m in Sources */,
+				2FDBB7CA198449E500C062B0 /* PBScrobblerStateNotificationObserver.m in Sources */,
 				2FEC8A481976D29500A0A587 /* LFSession.m in Sources */,
 				2FEC8A4F1976D34600A0A587 /* PBMediaItem.m in Sources */,
 				2FEC8A491976D29500A0A587 /* LFSignatureConstructor.m in Sources */,
@@ -401,6 +407,7 @@
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = scrobbled.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -432,6 +439,7 @@
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = scrobbled.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

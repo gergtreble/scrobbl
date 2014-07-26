@@ -30,24 +30,7 @@
             <string>org.nodomain.scrobbled</string>
             <key>key</key>
             <string>scrobblerEnabled</string>
-            <key>default</key>
-            <true/>
         </dict>
-<!--
-        <dict>
-            <key>cell</key>
-            <string>PSSwitchCell</string>
-            <key>label</key>
-            <string>Scrobble Podcasts</string>
-            <key>defaults</key>
-            <string>org.nodomain.scrobbled</string>
-            <key>key</key>
-            <string>scrobblePodcasts</string>
-            <key>default</key>
-            <false/>
-            <key>id</key>
-            <string>scrobblePodcasts</string>
-        </dict> -->
 
         <dict>
             <key>cell</key>
@@ -74,24 +57,6 @@
             <key>id</key>
             <string>canScrobbleRadio</string>
         </dict>
-<!--
-        <dict>
-            <key>cell</key>
-            <string>PSGroupCell</string>
-        </dict>
-
-        <dict>
-            <key>cell</key>
-            <string>PSSwitchCell</string>
-            <key>label</key>
-            <string>Enable status bar icon</string>
-            <key>defaults</key>
-            <string>org.nodomain.scrobbled</string>
-            <key>key</key>
-            <string>statusBarEnabled</string>
-            <key>footer</key>
-            <string>Status bar icon is shown whenever scrobbling succeeds or fails.</string>
-        </dict> -->
 
         <dict>
             <key>cell</key>
@@ -119,16 +84,6 @@
             <key>get</key>
             <string>scrobblerState</string>
         </dict>
-
-<!--
-        <dict>
-        	<key>cell</key>
-            <string>PSTitleValueCell</string>
-            <key>label</key>
-            <string>Tracks Scrobbled</string>
-            <key>get</key>
-            <string>tracksScrobbled</string>
-        </dict> -->
 
         <dict>
             <key>cell</key>
@@ -220,6 +175,7 @@
             <key>cell</key>
             <string>PSGroupCell</string>
         </dict>
+
 
         <dict>
 			<key>cell</key>

@@ -1,5 +1,3 @@
-
-
 #import "PBMediaRemoteNotificationObserver.h"
 #import "FXKeychain.h"
 #import "apikey.h"
@@ -9,17 +7,21 @@
 #import "LFError.h"
 #import "LFSignatureConstructor.h"
 #import "PBScrobblerQueueNotificationObserver.h"
+#import "PBScrobblerStateNotificationObserver.h"
 #import <sys/stat.h>
 
 #ifndef kMRMediaRemoteNowPlayingInfoRadioStationIdentifier
 #define kMRMediaRemoteNowPlayingInfoRadioStationIdentifier NULL
 #endif
 
+@class PBScrobblerStateNotificationObserver;
+
 @interface PBScrobbler : NSObject<PBMediaRemoteNotificationObserverDelegate>{
     
     NSNotificationCenter *center;
-    PBMediaRemoteNotificationObserver *observer;
+    PBMediaRemoteNotificationObserver *mrNotificationObserver;
     PBScrobblerQueueNotificationObserver *queueObserver;
+    PBScrobblerStateNotificationObserver *stateObserver;
     NSManagedObjectContext *temporaryItemsContext;
     LFSession *session;
     __strong RKManagedObjectStore *managedObjectStore;
@@ -27,6 +29,7 @@
 }
 
 @property BOOL shouldTerminate;
+@property BOOL isPaused;
 @property NSManagedObjectContext *savedItemsContext;
 
 -(id)init;
@@ -48,5 +51,7 @@
 -(void)couldNotScrobbleMediaItem:(PBMediaItem *)mediaItem;
 
 -(void)setState:(scrobbleState_t)state;
+-(void)setAuthResponse:(NSString *)response;
+-(void)setIsRunning:(BOOL)isRunning;
 
 @end

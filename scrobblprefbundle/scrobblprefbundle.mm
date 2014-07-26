@@ -6,6 +6,7 @@
 #import "SharedNotificationObserver.h"
 
 @interface scrobblprefbundleListController: PSListController {
+    SharedNotificationObserver *observer;
 }
 
 @end
@@ -17,8 +18,7 @@
     self = [super init];
     if (self)
     {
-        SharedNotificationObserver *observer = [SharedNotificationObserver sharedInstance];
-        [observer getQueueCount];
+        observer = [SharedNotificationObserver sharedInstance];
     }
     return self;
 }
@@ -70,13 +70,6 @@
     return iqueuecount;
 }
 
--(NSString *)lastTrackScrobbled{
-
-    NSString *iartist = [[[SharedPrefs sharedInstance].prefs objectForKey:@"lastScrobble"] objectForKey:@"artist"];
-    NSString *ititle = [[[SharedPrefs sharedInstance].prefs objectForKey:@"lastScrobble"] objectForKey:@"title"];
-    return [NSString stringWithFormat:@"%@ - %@", iartist, ititle];
-}
-
 -(NSString *)scrobblerState{
 
     int iscrobblerstate = [[[SharedPrefs sharedInstance].prefs objectForKey:@"scrobblerState"] integerValue];
@@ -98,8 +91,7 @@
 }
 
 -(void)restartDaemon{
-    system("launchctl unload /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist");
-    system("launchctl load /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist");
+    system("killall scrobbled");
 
     [self reload];
 }
