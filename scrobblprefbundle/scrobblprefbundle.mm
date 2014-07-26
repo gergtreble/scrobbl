@@ -34,7 +34,7 @@
         [rightBtn setImage:[UIImage imageWithContentsOfFile:@"/Library/PreferenceBundles/scrobblprefbundle.bundle/Github.png"] forState:UIControlStateNormal];
         rightBtn.frame = CGRectMake(0, 0, 60, 60);
 
-        [rightBtn addTarget:self action:@selector(githubButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [rightBtn addTarget:self action:@selector(githubButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
         [[self navigationItem] setRightBarButtonItem:rightBarBtn];
     }
