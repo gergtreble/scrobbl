@@ -1,0 +1,9 @@
+Package: com.pb.scrobblprefbundle
+Name: scrobbleprefbundle
+Depends: org.chris-w.scrobble, preferenceloader
+Architecture: iphoneos-arm
+Description: Scrobble preferences bundle
+Maintainer: Pb
+Author: Pb
+Section: Tweaks
+Version: 1.0

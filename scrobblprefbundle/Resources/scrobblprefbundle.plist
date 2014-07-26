@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>entry</key>
+	<dict>
+		<key>cell</key>
+		<string>PSLinkCell</string>
+		<key>icon</key>
+		<string>Scrobble.png</string>
+		<key>label</key>
+		<string>Scrobble</string>
+	</dict>
+	<key>items</key>
+	<array>
+
+		<dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>scrobbled settings</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>label</key>
+            <string>Enable scrobbling</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>scrobblerEnabled</string>
+            <key>default</key>
+            <true/>
+        </dict>
+<!--
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>label</key>
+            <string>Scrobble Podcasts</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>scrobblePodcasts</string>
+            <key>default</key>
+            <false/>
+            <key>id</key>
+            <string>scrobblePodcasts</string>
+        </dict> -->
+
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>label</key>
+            <string>Scrobble over EDGE/3G</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>scrobbleOverEDGE</string>
+            <key>id</key>
+            <string>scrobbleOverEDGE</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>label</key>
+            <string>Scrobble iTunes Radio</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>scrobbleRadio</string>
+            <key>id</key>
+            <string>canScrobbleRadio</string>
+        </dict>
+<!--
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>label</key>
+            <string>Enable status bar icon</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>statusBarEnabled</string>
+            <key>footer</key>
+            <string>Status bar icon is shown whenever scrobbling succeeds or fails.</string>
+        </dict> -->
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+        	<key>cell</key>
+            <string>PSTitleValueCell</string>
+            <key>label</key>
+            <string>Auth Response</string>
+            <key>defaults</key>
+            <string>org.nodomain.scrobbled</string>
+            <key>key</key>
+            <string>lastResult</string>
+            <key>id</key>
+            <string>authresponse</string>
+        </dict>
+
+        <dict>
+        	<key>cell</key>
+            <string>PSTitleValueCell</string>
+            <key>label</key>
+            <string>Scrobbler State</string>
+            <key>get</key>
+            <string>scrobblerState</string>
+        </dict>
+
+<!--
+        <dict>
+        	<key>cell</key>
+            <string>PSTitleValueCell</string>
+            <key>label</key>
+            <string>Tracks Scrobbled</string>
+            <key>get</key>
+            <string>tracksScrobbled</string>
+        </dict> -->
+
+        <dict>
+            <key>cell</key>
+            <string>PSTitleValue</string>
+            <key>label</key>
+            <string>Tracks Scrobbled</string>
+            <key>get</key>
+            <string>tracksScrobbled</string>
+        </dict>
+
+        <dict>
+        	<key>cell</key>
+            <string>PSLinkListCell</string>
+            <key>label</key>
+            <string>Tracks in Queue</string>
+        <!--<key>get</key>
+            <string>queueCount</string> -->
+            <key>detail</key>
+            <string>queueController</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSLinkCell</string>
+            <key>bundle</key>
+            <string>AppList</string>
+            <key>isController</key>
+            <string>1</string>
+            <key>label</key>
+            <string>Configure exclusions</string>
+            <key>ALAllowsSelection</key>
+            <string>1</string>
+            <key>ALSettingsDefaultValue</key>
+            <string>0</string>
+            <key>ALSectionDescriptors</key>
+            <array>
+                <dict>
+                    <key>footer-title</key>
+                    <string>Select applications to disable scrobbling in.</string>
+                    <key>items</key>
+	        <array/>
+                </dict>
+                <dict>
+                    <key>cell-class-name</key>
+                    <string>ALSwitchCell</string>
+                    <key>icon-size</key>
+                    <string>29</string>
+                    <key>predicate</key>
+                    <string>(isSystemApplication = TRUE AND supportsAudioBackgroundMode = TRUE)</string>
+                    <key>suppress-hidden-apps</key>
+                    <string>1</string>
+                    <key>title</key>
+                    <string>System Applications</string>
+                </dict>
+                <dict>
+                    <key>cell-class-name</key>
+                    <string>ALSwitchCell</string>
+                    <key>icon-size</key>
+                    <string>29</string>
+                    <key>predicate</key>
+                    <string>(isSystemApplication = FALSE AND supportsAudioBackgroundMode = TRUE)</string>
+                    <key>suppress-hidden-apps</key>
+                    <string>1</string>
+                    <key>title</key>
+                    <string>User Applications</string>
+                </dict>
+            </array>
+            <key>ALSettingsKeyPrefix</key>
+            <string>ScrobbleDisabled-</string>
+            <key>ALSettingsPath</key>
+            <string>/var/mobile/Library/Preferences/org.nodomain.scrobbled.plist</string>
+        </dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>label</key>
+			<string>Authenticate</string>
+			<key>detail</key>
+			<string>lastFmAuthController</string>
+		</dict>
+
+		<dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
+
+        <dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Restart daemon</string>
+			<key>action</key>
+			<string>restartDaemon</string>
+			<key>isDestructive</key>
+			<true/>
+		</dict>
+
+		<dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Authors</string>
+            <key>footerText</key>
+            <string>Original Scrobble by Sam Steele, Tony Hoyle, Chris Wegg. Maintained by Plumbum.</string>
+        </dict>
+
+	</array>
+	<key>title</key>
+	<string>Scrobble</string>
+</dict>
+</plist>

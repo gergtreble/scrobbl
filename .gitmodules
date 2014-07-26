@@ -1,0 +1,6 @@
+[submodule "FXKeychain"]
+	path = FXKeychain
+	url = git@github.com:nicklockwood/FXKeychain.git
+[submodule "RestKit"]
+	path = RestKit
+	url = https://github.com/RestKit/RestKit.git

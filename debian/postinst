@@ -1,0 +1,12 @@
+#!/bin/sh
+declare -a cydia
+cydia=($CYDIA)
+
+if [ "$1" = "configure" ]; then
+
+    chown root:wheel /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
+    launchctl load /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
+  echo "Starting Scrobbled..."
+fi
+
+exit 0
