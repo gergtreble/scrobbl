@@ -2,7 +2,6 @@
 #import "MediaRemote.h"
 #import "SpringBoardServices.h"
 #import "PBMediaItem.h"
-#import "PBScrobbler.h"
 
 @protocol PBMediaRemoteNotificationObserverDelegate <NSObject>
 
@@ -10,6 +9,8 @@
 -(void)scrobbleTrackWithInfo:(NSDictionary *)info;
 
 @end
+
+@class PBScrobbler;
 
 @interface PBMediaRemoteNotificationObserver : NSObject{
     NSString *lastTitle;

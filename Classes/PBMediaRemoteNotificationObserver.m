@@ -1,5 +1,6 @@
 
 #import "PBMediaRemoteNotificationObserver.h"
+#import "PBScrobbler.h"
 
 
 @implementation PBMediaRemoteNotificationObserver
