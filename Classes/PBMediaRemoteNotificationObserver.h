@@ -2,6 +2,7 @@
 #import "MediaRemote.h"
 #import "SpringBoardServices.h"
 #import "PBMediaItem.h"
+#import "PBScrobbler.h"
 
 @protocol PBMediaRemoteNotificationObserverDelegate <NSObject>
 
@@ -23,6 +24,7 @@
 }
 
 @property id <PBMediaRemoteNotificationObserverDelegate> delegate;
+@property PBScrobbler *scrobbler;
 -(void)trackDidChange;
 
 -(BOOL)canSendNowPlaying;

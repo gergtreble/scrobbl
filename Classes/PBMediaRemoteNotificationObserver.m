@@ -37,6 +37,10 @@
                 strongSelf->isPlaying = isPlayingNow;};
     }
     
+    if (self.scrobbler.isPaused) {
+        return;
+    }
+    
     MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(), ^(CFDictionaryRef information){
         info=(__bridge NSDictionary *)(information);
     });

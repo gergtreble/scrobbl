@@ -83,10 +83,6 @@
 
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
-    if (self.isPaused) {
-        return YES;
-    }
-    
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier] longValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
             //        1. If it is a radio track and we disallowed to scrobble these
