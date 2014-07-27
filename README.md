@@ -20,6 +20,13 @@ Please note that the daemon won't function on iOS versions prior to 5.0 as the `
 
 ### Building
 
-Clone the repo and run ```git submodule update --init --recursive```. Then use the makefile to build the project. If you need to, adjust ```VERSION``` variable.
+Clone the repo and run ```git submodule update --init --recursive```.
+
+Create ```/Classes/apikey.h``` and ```#define``` there your Last.fm API keys like this:
+
+    #define kLFAPIKey @"YOURAPIKEY"
+    #define kLFAPISecret @"YOURAPISECRET"
+
+Use the makefile to build the project. If you need to, adjust ```VERSION``` variable.
 
 If you don't want to build the project, you can find latest build [here](https://github.com/comscandiumplumbumd/scrobbl/tree/master/Build).
