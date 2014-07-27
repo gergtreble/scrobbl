@@ -261,7 +261,6 @@
 
 -(void)setIsRunning:(BOOL)isRunning{
     
-    NSLog(@"setting status %d", isRunning);
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:isRunning] forKey:@"scrobblerEnabled"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -361,7 +360,10 @@
         [self setState:SCROBBLER_OFFLINE];
         [self setAuthResponse:@"No response"];
     }];
-    [self retryAuthIn:120];
+    
+    if (shouldReauth) {
+        [self retryAuthIn:120];
+    }
 }
 
 -(void)retryAuthIn:(double)seconds{
