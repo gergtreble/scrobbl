@@ -74,7 +74,8 @@
     
     else{
         
-       popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC));
+        int64_t delay = 30;
+       popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
     }
     
     dispatch_after(popTime, scrobbleQueue, ^(void){

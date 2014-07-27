@@ -8,6 +8,7 @@
     if (self) {
         center  = [NSDistributedNotificationCenter defaultCenter];
         context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+        self.tracksToDelete = [[NSMutableDictionary alloc] init];
         [self registerForNotifications];
     }
     return self;
@@ -76,18 +77,14 @@
     
 }
 
+-(void)willDeleteTrack:(PBMediaItem *)mediaItem{
+    
+    [self.tracksToDelete setObject:[NSString stringWithFormat:@"%@ – %@", mediaItem.artist, mediaItem.title] forKey:[mediaItem.timestamp stringValue]];
+}
+
 -(void)postDeletedTracks{
     
-    NSSet *mediaItems = [context deletedObjects];
-    
-    NSMutableDictionary *tracks = [[NSMutableDictionary alloc] init];
-    
-    for (PBMediaItem *mediaItem in mediaItems) {
-        [tracks setObject:[NSString stringWithFormat:@"%@ – %@", mediaItem.artist, mediaItem.title] forKey:[mediaItem.timestamp stringValue]];
-    }
-    
-    
-    [center postNotificationName:@"deletedTracks" object:@"com.pb.scrobbled" userInfo:tracks deliverImmediately:YES];
+    [center postNotificationName:@"deletedTracks" object:@"com.pb.scrobbled" userInfo:self.tracksToDelete deliverImmediately:YES];
 }
 
 -(void)unregisterForNotifications{

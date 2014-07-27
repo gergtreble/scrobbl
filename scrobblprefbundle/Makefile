@@ -12,7 +12,6 @@ scrobblprefbundle_FRAMEWORKS = UIKit Security
 scrobblprefbundle_PRIVATE_FRAMEWORKS = Preferences GraphicsServices
 scrobblprefbundle_CODESIGN_FLAGS = -S$(CODESIGN_ENTITLEMENT)
 scrobblprefbundle_LIBRARIES = MobileGestalt
-# scrobblprefbundle_CFLAGS = -include scrobblprefundle-Prefix.pch
 export CODESIGN_ENTITLEMENT = ../scrobbled.entitlements
 export CODESIGN_COMMANDLINE = $(TARGET_CODESIGN)
 

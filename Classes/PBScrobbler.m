@@ -20,6 +20,7 @@
     submissionsCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"totalScrobbled"] longValue];
 
     [self registerForNotifications];
+    
     [self setIsRunning:YES];
     self.isPaused = NO;
 
@@ -219,7 +220,16 @@
         mediaItems = [mediaItems subarrayWithRange:NSMakeRange(0, 50)];
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateParametersWithMediaItems:mediaItems withSession:session withMethod:@"track.scrobble"];
+    NSDictionary *params;
+    if ([mediaItems count] > 1) {
+        params = [LFSignatureConstructor generateParametersWithMediaItems:mediaItems withSession:session withMethod:@"track.scrobble"];
+    }
+    
+    else{
+        params = [LFSignatureConstructor generateParametersWithMediaItem:[mediaItems firstObject] withSession:session withMethod:@"track.scrobble"];
+    }
+    
+    [queueObserver.tracksToDelete removeAllObjects];
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -246,6 +256,7 @@
              
              [self setState:SCROBBLER_SCROBBLING];
              for (PBMediaItem *mediaItem in mediaItems) {
+                 [queueObserver willDeleteTrack:mediaItem];
                  [context deleteObject:mediaItem];
                  [self didScrobble];
              }
@@ -311,6 +322,10 @@
             }
 
             [self handleQueue];
+        }
+        else{
+            
+            [self setState:SCROBBLER_OFFLINE];
         }
     }];
 }
