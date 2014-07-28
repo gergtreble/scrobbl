@@ -4,6 +4,8 @@ Scrobbl is a Last.fm scrobbling daemon for (jailbroken) iOS.
 
 This is a rewrite of the [original](http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=scrobblData) daemon with numerous improvements and fixes.
 
+#### [Get latest build (.deb)](https://github.com/comscandiumplumbumd/scrobbl/tree/master/Build)
+
 ### iOS version support
 
 Scrobbl requires at least iOS 5.0.
@@ -28,5 +30,3 @@ Create ```/Classes/apikey.h``` and ```#define``` there your Last.fm API keys lik
     #define kLFAPISecret @"YOURAPISECRET"
 
 Use the makefile to build the project. If you need to, adjust ```VERSION``` variable.
-
-If you don't want to build the project, you can find latest build [here](https://github.com/comscandiumplumbumd/scrobbl/tree/master/Build).
