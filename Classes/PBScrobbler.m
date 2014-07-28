@@ -86,9 +86,12 @@
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
-        NSNumber *radioID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier];
-        if ([radioID integerValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
+        NSNumber *scrobbleRadio = [[NSUserDefaults standardUserDefaults] objectForKey:@"scrobbleRadio"];
+        NSString *radioHash = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationHash];
+        NSLog(@"radio id: %@, scrobbleRadio: %@", radioHash, scrobbleRadio);
+        if (radioHash && ![scrobbleRadio boolValue]) {
             //        1. If it is a radio track and we disallowed to scrobble these
+            NSLog(@"Ignoring track (radio)");
             return YES;
         }
     }
@@ -99,6 +102,7 @@
     
     if ([inDefaults boolValue]) {
         //        2. If we disabled scrobbling for a certain application
+        NSLog(@"Ignoring track (exclusion)");
         return YES;
     }
     
