@@ -32,7 +32,7 @@ extern NSString* PSDeletionActionKey;
     NSString *title = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[timestamp doubleValue]]];
     PSSpecifier *specifier = [PSSpecifier preferenceSpecifierNamed:title target:self set:nil get:@selector(trackForSpecifier:) detail:nil cell:PSTitleValueCell edit:0];
     [specifier setProperty:trackName forKey:@"trackName"];
-    [specifier setProperty:[NSString stringWithFormat:@"%ld",[timestamp longValue]] forKey:@"id"];
+    [specifier setProperty:[timestamp stringValue] forKey:@"id"];
     [specifier setProperty:timestamp forKey:@"timestamp"];
     [specifier setProperty:NSStringFromSelector(@selector(removedSpecifier:)) forKey:PSDeletionActionKey];
     return specifier;

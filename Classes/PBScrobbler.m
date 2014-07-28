@@ -86,14 +86,22 @@
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
-        if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier] integerValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
+        NSNumber *radioID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier];
+        if ([radioID integerValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
+            NSLog(@"ignoring (radio");
             //        1. If it is a radio track and we disallowed to scrobble these
             return YES;
         }
     }
     
+    if (![info objectForKey:@"nowPlayingApplication"]) {
+        return YES;
+    }
+    
     NSString *appString = [NSString stringWithFormat:@"ScrobbleDisabled-%@", [info objectForKey:@"nowPlayingApplication"]];
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:appString]) {
+    NSNumber *inDefaults = [[NSUserDefaults standardUserDefaults] objectForKey:appString];
+    
+    if ([inDefaults boolValue]) {
         //        2. If we disabled scrobbling for a certain application
         return YES;
     }
@@ -110,9 +118,11 @@
     PBMediaItem *mediaItem = [self mediaItemWithInfo:info includingTimestamp:NO];
     NSDictionary *params = [LFSignatureConstructor generateParametersWithMediaItem:mediaItem withSession:session withMethod:@"track.updateNowPlaying"];
 
+//    NSLog(@"Going to send nowplaying for %@ with params %@", mediaItem, params);
+    
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         
+        
          for (id obj in mappingResult.array) {
 
              if ([obj isKindOfClass:[LFError class]]) {

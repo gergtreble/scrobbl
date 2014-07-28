@@ -64,11 +64,11 @@
     
     duration = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration];
     
-//    Old RemoteMedia versions do not report duration, so we wait 30 seconds before trying to scrobble.
+//    Old RemoteMedia versions do not report duration, so we wait 30 seconds before trying to scrobble (this kind of violates scrobbling rules though)
     
     dispatch_time_t popTime;
     
-    if (duration) {
+    if ([duration integerValue]) {
         
         popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * [duration integerValue] * NSEC_PER_SEC));}
     
@@ -93,13 +93,15 @@
         return NO;
     }
     
-    if ([info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier]) {
+    NSNumber *uID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier];
     
-            if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier] isEqualToNumber:lastUID]) {
+    if (uID) {
+        
+            if ([uID isEqualToNumber:lastUID]) {
                 return NO;
         }
         
-        lastUID = [info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier];
+        lastUID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier];
         
         didScrobble = NO;
         return YES;
