@@ -78,6 +78,7 @@
     if ([info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoDuration]) {
         mediaItem.duration = [info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoDuration];
     }
+    
     return mediaItem;
     
 }
@@ -85,7 +86,7 @@
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
-        if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier] longValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
+        if ([[info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier] integerValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
             //        1. If it is a radio track and we disallowed to scrobble these
             return YES;
         }

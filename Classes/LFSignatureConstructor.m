@@ -35,8 +35,8 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     [ret setObject:mediaItem.title forKey:@"track"];
     [ret setObject:mediaItem.artist forKey:@"artist"];
     
-    if ([mediaItem.timestamp longValue]){
-        [ret setObject:[NSString stringWithFormat:@"%ld", [mediaItem.timestamp  longValue]] forKey:@"timestamp"];
+    if (mediaItem.timestamp){
+        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.timestamp  integerValue])] forKey:@"timestamp"];
     }
     
     if (mediaItem.album) {
@@ -44,7 +44,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     }
     
     if (mediaItem.duration) {
-        [ret setObject:[NSString stringWithFormat:@"%ld", (unsigned long)mediaItem.duration] forKey:@"duration"];
+        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.duration integerValue])] forKey:@"duration"];
     }
     
     NSString *sig = [self generateSignatureFromDictionary:ret withSecret:kLFAPISecret];
@@ -64,14 +64,14 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
         [ret setObject:mediaItem.title forKey:[NSString stringWithFormat:@"track[%d]", i]];
         [ret setObject:mediaItem.artist forKey:[NSString stringWithFormat:@"artist[%d]", i]];
         
-        [ret setObject:[NSString stringWithFormat:@"%ld", (unsigned long)mediaItem.timestamp] forKey:[NSString stringWithFormat:@"timestamp[%d]", i]];
+        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.timestamp integerValue])] forKey:[NSString stringWithFormat:@"timestamp[%d]", i]];
         
         if (mediaItem.album) {
             [ret setObject:mediaItem.album forKey:[NSString stringWithFormat:@"album[%d]", i]];
         }
         
         if (mediaItem.duration) {
-            [ret setObject:[NSString stringWithFormat:@"%ld", (unsigned long)mediaItem.duration] forKey:[NSString stringWithFormat:@"duration[%d]",i]];
+            [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.duration integerValue])] forKey:[NSString stringWithFormat:@"duration[%d]",i]];
         }
        
         i++;

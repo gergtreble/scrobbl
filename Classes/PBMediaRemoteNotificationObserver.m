@@ -49,7 +49,7 @@
 
     [info setValue:[self nowPlayingApplicationIdentifier] forKey:@"nowPlayingApplication"];
     
-    NSDate *timestamp = [info objectForKey:(__bridge NSDate *)kMRMediaRemoteNowPlayingInfoTimestamp];
+    NSDate *timestamp = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTimestamp];
     if (!timestamp) {
         [info setValue:[NSDate date] forKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTimestamp];
     }
@@ -60,9 +60,9 @@
     
     dispatch_queue_t scrobbleQueue = dispatch_queue_create("scrobble", 0);
     
-    double duration;
+    NSNumber *duration;
     
-    duration = [[info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration] doubleValue];
+    duration = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration];
     
 //    Old RemoteMedia versions do not report duration, so we wait 30 seconds before trying to scrobble.
     
@@ -70,7 +70,7 @@
     
     if (duration) {
         
-        popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * duration * NSEC_PER_SEC));}
+        popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * [duration integerValue] * NSEC_PER_SEC));}
     
     else{
         
