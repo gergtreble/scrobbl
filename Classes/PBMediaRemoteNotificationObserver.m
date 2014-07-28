@@ -76,10 +76,14 @@
     }
     
     dispatch_after(popTime, scrobbleQueue, ^(void){
-            if ([self canScrobble]) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self canScrobble])
                 [self.delegate scrobbleTrackWithInfo:info];
-            }
+
         });
+        
+    });
 }
 
 -(BOOL)canSendNowPlaying{
@@ -90,7 +94,7 @@
         return NO;
     }
     
-    /*
+    
     NSNumber *uID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier];
     
     if (uID) {
@@ -103,7 +107,7 @@
         
         didScrobble = NO;
         return YES;
-    }*/
+    }
     
     if ([info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist] && [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle]) {
         
