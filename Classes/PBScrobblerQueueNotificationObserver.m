@@ -79,6 +79,7 @@
 
 -(void)willDeleteTrack:(PBMediaItem *)mediaItem{
     
+    NSLog(@"Deleting %@ - %@ from store", mediaItem.artist, mediaItem.title);
     [self.tracksToDelete setObject:[NSString stringWithFormat:@"%@ – %@", mediaItem.artist, mediaItem.title] forKey:[mediaItem.timestamp stringValue]];
 }
 

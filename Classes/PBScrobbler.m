@@ -216,6 +216,8 @@
     __block NSError *error;
     NSArray *mediaItems = [context  executeFetchRequest:request error:&error];
     
+    NSLog(@"Got %@ items in queue", @([mediaItems count]));
+    
     if (![mediaItems count]) {
         return;
     }
@@ -356,6 +358,8 @@
 
     NSString *signature = [LFSignatureConstructor generateSignatureFromDictionary:params withSecret:kLFAPISecret];
     [params setObject:signature forKey:@"api_sig"];
+    
+    NSLog(@"Trying to authenticate..");
 
     __block BOOL shouldReauth = NO;
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -372,6 +376,7 @@
                 session = [obj copy];
                 [self setState:SCROBBLER_READY];
                 [self setAuthResponse:@"OK"];
+                NSLog(@"Got session: %@", session.name);
             }
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
