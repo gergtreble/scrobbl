@@ -32,5 +32,6 @@
 -(BOOL)canScrobble;
 
 -(void)unregisterForNotifications;
+-(NSString *)nowPlayingApplicationIdentifier;
 
 @end

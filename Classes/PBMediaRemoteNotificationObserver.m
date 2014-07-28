@@ -46,9 +46,6 @@
         info=(__bridge NSDictionary *)(information);
     });
     
-
-    [info setValue:[self nowPlayingApplicationIdentifier] forKey:@"nowPlayingApplication"];
-    
     NSDate *timestamp = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTimestamp];
     if (!timestamp) {
         [info setValue:[NSDate date] forKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTimestamp];
@@ -93,6 +90,7 @@
         return NO;
     }
     
+    /*
     NSNumber *uID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoUniqueIdentifier];
     
     if (uID) {
@@ -105,7 +103,7 @@
         
         didScrobble = NO;
         return YES;
-    }
+    }*/
     
     if ([info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist] && [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle]) {
         

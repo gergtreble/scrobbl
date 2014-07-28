@@ -51,7 +51,7 @@
     if (!mediaItem.timestamp) {
         return;
     }
-//    NSLog(@"Saving %@ to store..", mediaItem);
+    NSLog(@"Saving %@", mediaItem);
     
     NSError *error;
     if (![temporaryItemsContext saveToPersistentStore:&error]) {
@@ -88,17 +88,13 @@
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         NSNumber *radioID = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationIdentifier];
         if ([radioID integerValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"scrobbleRadio"]) {
-            NSLog(@"ignoring (radio");
             //        1. If it is a radio track and we disallowed to scrobble these
             return YES;
         }
     }
     
-    if (![info objectForKey:@"nowPlayingApplication"]) {
-        return YES;
-    }
-    
-    NSString *appString = [NSString stringWithFormat:@"ScrobbleDisabled-%@", [info objectForKey:@"nowPlayingApplication"]];
+    NSString *appIdentifier = [mrNotificationObserver nowPlayingApplicationIdentifier];
+    NSString *appString = [NSString stringWithFormat:@"ScrobbleDisabled-%@", appIdentifier];
     NSNumber *inDefaults = [[NSUserDefaults standardUserDefaults] objectForKey:appString];
     
     if ([inDefaults boolValue]) {
@@ -111,14 +107,14 @@
 
 -(void)sendNowPlayingWithInfo:(NSDictionary *)info{
    
-    if ([self shouldIgnoreTrack:info]) {
+    if ([self shouldIgnoreTrack:info] || !session) {
         return;
     }
     
     PBMediaItem *mediaItem = [self mediaItemWithInfo:info includingTimestamp:NO];
     NSDictionary *params = [LFSignatureConstructor generateParametersWithMediaItem:mediaItem withSession:session withMethod:@"track.updateNowPlaying"];
 
-//    NSLog(@"Going to send nowplaying for %@ with params %@", mediaItem, params);
+    NSLog(@"Going to send nowplaying for %@", mediaItem);
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -149,6 +145,7 @@
 
     
     if ([self shouldIgnoreTrack:info]) {
+        NSLog(@"Ignoring track %@ - %@", [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist], [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle]);
         return;
     }
     
@@ -170,9 +167,8 @@
     
     NSDictionary *params = [LFSignatureConstructor generateParametersWithMediaItem:mediaItem withSession:session withMethod:@"track.scrobble"];
 
-//    NSLog(@"Going to scrobble %@ with params %@", mediaItem, params);
+    NSLog(@"Going to scrobble %@", mediaItem);
     
-    __block BOOL didSave = NO;
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
      ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          for (id obj in mappingResult.array) {
@@ -184,12 +180,9 @@
                      [self setAuthResponse:@"Error"];
                  }
                  
-                 if (!didSave)
                  [self couldNotScrobbleMediaItem:mediaItem];
-                 didSave = YES;
              }
              if ([obj isKindOfClass:[PBMediaItem class]]) {
-                 if (!didSave)
                  [self couldNotScrobbleMediaItem:obj];
             }
              
@@ -388,7 +381,7 @@
     }];
     
     if (shouldReauth) {
-        [self retryAuthIn:120];
+        [self retryAuthIn:300];
     }
 }
 
@@ -396,7 +389,8 @@
     
     double delayInSeconds = seconds;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    dispatch_queue_t authQueue = dispatch_queue_create("authQueue", 0);
+    dispatch_after(popTime, authQueue, ^(void){
         [self authenticate];
     });
 }
