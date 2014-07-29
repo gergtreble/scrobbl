@@ -63,11 +63,13 @@
     
 //    Old RemoteMedia versions do not report duration, so we wait 30 seconds before trying to scrobble (this kind of violates scrobbling rules though)
     
+    NSDate *now = [NSDate date];
+    
     dispatch_time_t popTime;
     
-    if ([duration integerValue]) {
+    if (duration) {
         
-        popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * [duration integerValue] * NSEC_PER_SEC));}
+        popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * [duration doubleValue] * NSEC_PER_SEC));}
     
     else{
         

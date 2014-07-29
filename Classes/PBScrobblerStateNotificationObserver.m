@@ -13,6 +13,11 @@
     return self;
 }
 
+-(void)dealloc{
+    
+    [self unregisterForNotifications];
+}
+
 -(void)registerForNotifications{
     
     [center addObserver:self selector:@selector(defaultsDidChange) name:NSUserDefaultsDidChangeNotification object:nil];

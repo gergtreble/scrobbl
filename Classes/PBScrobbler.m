@@ -10,21 +10,23 @@
 
     self = [super init];
     
-    if (self) {
-    RKLogConfigureByName("RestKit/*", RKLogLevelCritical);
-    
-    [self configureMapping];
-    
-    [self authenticate];
+    if (self){
+        
+        RKLogConfigureByName("RestKit/*", RKLogLevelCritical);
+        
+        [self configureMapping];
+        
+        // Reachability status block already does this for us
+        //[self authenticate];
 
-    submissionsCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"totalScrobbled"] longValue];
+        submissionsCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"totalScrobbled"] longValue];
 
-    [self registerForNotifications];
-    
-    [self setIsRunning:YES];
-    self.isPaused = NO;
+        [self registerForNotifications];
+        
+        [self setIsRunning:YES];
+        self.isPaused = NO;
 
-    self.shouldTerminate = NO;
+        self.shouldTerminate = NO;
     }
     return self;
 }
@@ -390,12 +392,13 @@
     }];
     
     if (shouldReauth) {
-        [self retryAuthIn:300];
+        [self retryAuthIn:300.0f];
     }
 }
 
 -(void)retryAuthIn:(double)seconds{
     
+    NSLog(@"going to retry auth in %@ seconds", @(seconds));
     double delayInSeconds = seconds;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_queue_t authQueue = dispatch_queue_create("authQueue", 0);

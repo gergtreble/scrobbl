@@ -10,8 +10,8 @@
 #import "PBScrobblerStateNotificationObserver.h"
 #import <sys/stat.h>
 
-#ifndef kMRMediaRemoteNowPlayingInfoRadioStationIdentifier
-#define kMRMediaRemoteNowPlayingInfoRadioStationIdentifier NULL
+#ifndef kMRMediaRemoteNowPlayingInfoRadioStationHash
+#define kMRMediaRemoteNowPlayingInfoRadioStationHash NULL
 #endif
 
 @class PBScrobblerStateNotificationObserver;
