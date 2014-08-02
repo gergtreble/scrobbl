@@ -98,6 +98,10 @@
         }
     }
     
+    if(![[info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist] length] || ![[info objectForKey: (__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle] length]){
+        return YES;
+    }
+    
     NSString *appIdentifier = [mrNotificationObserver nowPlayingApplicationIdentifier];
     NSString *appString = [NSString stringWithFormat:@"ScrobbleDisabled-%@", appIdentifier];
     NSNumber *inDefaults = [[NSUserDefaults standardUserDefaults] objectForKey:appString];
@@ -208,7 +212,10 @@
     
 }
 
+
 -(void)handleQueue{
+    
+//    TODO: add handler of `wrong` items
     
     if (!session) {
         return;
@@ -220,25 +227,41 @@
     [request setEntity:entity];
     
     __block NSError *error;
-    NSArray *mediaItems = [context  executeFetchRequest:request error:&error];
-    
-    NSLog(@"Got %@ items in queue", @([mediaItems count]));
+    NSMutableArray *mediaItems = [[context executeFetchRequest:request error:&error] mutableCopy];
     
     if (![mediaItems count]) {
         return;
     }
     
-    if ([mediaItems count] > 50) {
-        mediaItems = [mediaItems subarrayWithRange:NSMakeRange(0, 50)];
+    NSLog(@"Got %@ items in queue", @([mediaItems count]));
+    
+    unsigned int i = 0;
+    
+    for (PBMediaItem *mediaItem in mediaItems) {
+        
+        if (![mediaItem.artist length] || ![mediaItem.title length]) {
+            [mediaItems removeObject:mediaItem];
+            [context deleteObject:mediaItem];
+            i++;
+        }
     }
     
+    [context saveToPersistentStore:&error];
+    
+    NSLog(@"Purging %@ items from queue", @(i));
+    
     NSDictionary *params;
-    if ([mediaItems count] > 1) {
+    
+    if ([mediaItems count] == 1) {
+        params = [LFSignatureConstructor generateParametersWithMediaItem:[mediaItems firstObject] withSession:session withMethod:@"track.scrobble"];
+    }
+    
+    else if ([mediaItems count] <= 50) {
         params = [LFSignatureConstructor generateParametersWithMediaItems:mediaItems withSession:session withMethod:@"track.scrobble"];
     }
     
     else{
-        params = [LFSignatureConstructor generateParametersWithMediaItem:[mediaItems firstObject] withSession:session withMethod:@"track.scrobble"];
+        params = [LFSignatureConstructor generateParametersWithMediaItems:[mediaItems subarrayWithRange:NSMakeRange(0, 50)] withSession:session withMethod:@"track.scrobble"];
     }
     
     [queueObserver.tracksToDelete removeAllObjects];

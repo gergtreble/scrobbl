@@ -62,8 +62,7 @@
     duration = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration];
     
 //    Old RemoteMedia versions do not report duration, so we wait 30 seconds before trying to scrobble (this kind of violates scrobbling rules though)
-    
-    NSDate *now = [NSDate date];
+//    Sometimes it also posts notifications without a duration, so in this case the 30 seconds are used as a fallback
     
     dispatch_time_t popTime;
     

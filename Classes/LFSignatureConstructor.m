@@ -61,13 +61,13 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     unsigned int i = 0;
     for (PBMediaItem *mediaItem in mediaItems) {
         
-        [ret setObject:mediaItem.title forKey:[NSString stringWithFormat:@"track[%d]", i]];
-        [ret setObject:mediaItem.artist forKey:[NSString stringWithFormat:@"artist[%d]", i]];
+        [ret setObject:mediaItem.title forKey:[NSString stringWithFormat:@"track[%@]", @(i)]];
+        [ret setObject:mediaItem.artist forKey:[NSString stringWithFormat:@"artist[%@]", @(i)]];
         
-        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.timestamp integerValue])] forKey:[NSString stringWithFormat:@"timestamp[%d]", i]];
+        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.timestamp integerValue])] forKey:[NSString stringWithFormat:@"timestamp[%@]", @(i)]];
         
         if (mediaItem.album) {
-            [ret setObject:mediaItem.album forKey:[NSString stringWithFormat:@"album[%d]", i]];
+            [ret setObject:mediaItem.album forKey:[NSString stringWithFormat:@"album[%@]", @(i)]];
         }
         
         if (mediaItem.duration) {
