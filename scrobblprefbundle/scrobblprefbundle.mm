@@ -60,8 +60,8 @@
 
 -(NSString *)tracksScrobbled{
 
-    int itotalscrobbled = [[[SharedPrefs sharedInstance].prefs objectForKey:@"totalScrobbled"] integerValue];
-    return [NSString stringWithFormat:@"%d", itotalscrobbled];
+    NSString *itotalscrobbled = [[SharedPrefs sharedInstance].prefs objectForKey:@"totalScrobbled"];
+    return [NSString stringWithFormat:@"%@", itotalscrobbled];
 }
 
 -(NSString *)queueCount{

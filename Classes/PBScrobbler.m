@@ -71,7 +71,7 @@
     mediaItem.artist = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist];
     
     if (shouldIncludeTimestamp)
-        mediaItem.timestamp = [NSNumber numberWithDouble:[[info objectForKey:(__bridge NSDate *)kMRMediaRemoteNowPlayingInfoTimestamp] timeIntervalSince1970]];
+        mediaItem.timestamp = @([[info objectForKey:(__bridge NSDate *)kMRMediaRemoteNowPlayingInfoTimestamp] timeIntervalSince1970]);
     
     if ([info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoAlbum]) {
         mediaItem.album = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoAlbum];

@@ -36,7 +36,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     [ret setObject:mediaItem.artist forKey:@"artist"];
     
     if ([mediaItem.timestamp integerValue]){
-        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.timestamp  integerValue])] forKey:@"timestamp"];
+        [ret setObject:[NSString stringWithFormat:@"%@", mediaItem.timestamp] forKey:@"timestamp"];
     }
     
     if (mediaItem.album) {
@@ -44,7 +44,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     }
     
     if (mediaItem.duration) {
-        [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.duration integerValue])] forKey:@"duration"];
+        [ret setObject:[NSString stringWithFormat:@"%@", mediaItem.duration] forKey:@"duration"];
     }
     
     NSString *sig = [self generateSignatureFromDictionary:ret withSecret:kLFAPISecret];
@@ -71,7 +71,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
         }
         
         if (mediaItem.duration) {
-            [ret setObject:[NSString stringWithFormat:@"%@", @([mediaItem.duration integerValue])] forKey:[NSString stringWithFormat:@"duration[%d]",i]];
+            [ret setObject:[NSString stringWithFormat:@"%@", mediaItem.duration] forKey:[NSString stringWithFormat:@"duration[%d]",i]];
         }
        
         i++;
