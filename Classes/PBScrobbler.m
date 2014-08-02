@@ -246,7 +246,8 @@
     
     [context saveToPersistentStore:&error];
     
-    NSLog(@"Purging %@ items from queue", @(i));
+    if (i)
+        NSLog(@"Purging %@ items from queue", @(i));
     
     NSDictionary *params;
     
