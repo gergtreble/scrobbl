@@ -215,8 +215,6 @@
 
 -(void)handleQueue{
     
-//    TODO: add handler of `wrong` items
-    
     if (!session) {
         return;
     }
