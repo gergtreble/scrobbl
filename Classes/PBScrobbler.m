@@ -71,14 +71,14 @@
     mediaItem.artist = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist];
     
     if (shouldIncludeTimestamp)
-        mediaItem.timestamp = @([[info objectForKey:(__bridge NSDate *)kMRMediaRemoteNowPlayingInfoTimestamp] timeIntervalSince1970]);
+        mediaItem.timestamp = @([[info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTimestamp] timeIntervalSince1970]);
     
     if ([info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoAlbum]) {
         mediaItem.album = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoAlbum];
     }
     
-    if ([info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoDuration]) {
-        mediaItem.duration = [info objectForKey:(__bridge NSNumber *)kMRMediaRemoteNowPlayingInfoDuration];
+    if ([info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration]) {
+        mediaItem.duration = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDuration];
     }
     
     return mediaItem;
