@@ -22,10 +22,12 @@
     
     __block NSDictionary *info;
     MRMediaRemoteGetNowPlayingApplicationIsPlayingCompletion isPlayingCompletion;
+    PBScrobbler *scrobbler;
 }
 
 @property id <PBMediaRemoteNotificationObserverDelegate> delegate;
-@property PBScrobbler *scrobbler;
+
+-(id)initWithScrobbler:(PBScrobbler *)_scrobbler;
 -(void)trackDidChange;
 
 -(BOOL)canSendNowPlaying;

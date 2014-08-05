@@ -16,6 +16,7 @@
 #endif
 
 @class PBScrobblerStateNotificationObserver;
+@class PBThumbsNotificationObserver;
 
 @interface PBScrobbler : NSObject<PBMediaRemoteNotificationObserverDelegate>{
     

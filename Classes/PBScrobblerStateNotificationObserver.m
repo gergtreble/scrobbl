@@ -2,12 +2,13 @@
 
 @implementation PBScrobblerStateNotificationObserver
 
--(id)init{
+-(id)initWithScrobbler:(PBScrobbler *)_scrobbler{
     
     self = [super init];
     if (self) {
         center = [NSNotificationCenter defaultCenter];
         previousState = [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
+        scrobbler = _scrobbler;
         [self registerForNotifications];
     }
     return self;
@@ -44,12 +45,12 @@
 
 -(void)pauseScrobbler{
     
-    self.scrobbler.isPaused = YES;
+    scrobbler.isPaused = YES;
 }
 
 -(void)continueScrobbler{
     
-    self.scrobbler.isPaused = NO;
+    scrobbler.isPaused = NO;
 }
 
 @end

@@ -5,7 +5,7 @@
 
 @implementation PBMediaRemoteNotificationObserver
 
--(id)init{
+-(id)initWithScrobbler:(PBScrobbler *)_scrobbler{
     
     self = [super init];
     
@@ -16,6 +16,7 @@
     lastTitle = [[NSString alloc] init];
     lastArtist = [[NSString alloc] init];
     lastUID = [[NSNumber alloc] initWithInt:1];
+    scrobbler = _scrobbler;
     }
     return self;
 }
@@ -37,7 +38,7 @@
                 strongSelf->isPlaying = isPlayingNow;};
     }
     
-    if (self.scrobbler.isPaused) {
+    if (scrobbler.isPaused) {
         return;
     }
     

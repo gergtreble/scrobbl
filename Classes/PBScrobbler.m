@@ -24,7 +24,7 @@
         [self registerForNotifications];
         
         [self setIsRunning:YES];
-        self.isPaused = NO;
+        self.isPaused = [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
 
         self.shouldTerminate = NO;
     }
@@ -491,20 +491,17 @@
 -(void)registerForNotifications{
 
     center = [NSNotificationCenter defaultCenter];
-    mrNotificationObserver = [[PBMediaRemoteNotificationObserver alloc] init];
+    mrNotificationObserver = [[PBMediaRemoteNotificationObserver alloc] initWithScrobbler:self];
     
     mrNotificationObserver.delegate = self;
-    mrNotificationObserver.scrobbler = self;
     
     [center addObserver:mrNotificationObserver selector:@selector(trackDidChange) name:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil];
 
     queueObserver = [[PBScrobblerQueueNotificationObserver alloc] init];
     
-    stateObserver = [[PBScrobblerStateNotificationObserver alloc] init];
-    stateObserver.scrobbler = self;
+    stateObserver = [[PBScrobblerStateNotificationObserver alloc] initWithScrobbler:self];
     
-    thumbsObserver = [[PBThumbsNotificationObserver alloc] init];
-    thumbsObserver.scrobbler = self;
+    thumbsObserver = [[PBThumbsNotificationObserver alloc] initWithScrobbler:self];
     
     [[[RKObjectManager sharedManager] HTTPClient] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 

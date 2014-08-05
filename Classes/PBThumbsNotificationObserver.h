@@ -6,9 +6,10 @@
 @interface PBThumbsNotificationObserver : NSObject{
     
     NSDistributedNotificationCenter *center;
+    PBScrobbler *scrobbler;
 }
 
-@property PBScrobbler *scrobbler;
+-(id)initWithScrobbler:(PBScrobbler *)scrobbler;
 
 -(void)registerForNotifications;
 -(void)unregisterForNotifications;

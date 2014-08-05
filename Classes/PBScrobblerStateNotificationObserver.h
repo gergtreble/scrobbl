@@ -5,9 +5,10 @@
     
     NSNotificationCenter *center;
     BOOL previousState;
+    PBScrobbler *scrobbler;
 }
 
-@property PBScrobbler *scrobbler;
+-(id)initWithScrobbler:(PBScrobbler *)_scrobbler;
 -(void)registerForNotifications;
 -(void)unregisterForNotifications;
 
