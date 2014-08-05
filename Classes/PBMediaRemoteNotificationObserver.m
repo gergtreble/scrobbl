@@ -25,7 +25,6 @@
     MRMediaRemoteUnregisterForNowPlayingNotifications();
 }
 
-
 -(void)trackDidChange{
     
     if (!isPlayingCompletion) {
@@ -148,5 +147,13 @@
     return nowPlayingAppID;
 }
 
+-(NSDictionary *)nowPlayingArtistTitle{
+    
+    if (![info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist] || ![info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle]) {
+        return nil;
+    }
+    
+    return @{[info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtist] : [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoTitle]};
+}
 
 @end

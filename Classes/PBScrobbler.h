@@ -8,6 +8,7 @@
 #import "LFSignatureConstructor.h"
 #import "PBScrobblerQueueNotificationObserver.h"
 #import "PBScrobblerStateNotificationObserver.h"
+#import "PBThumbsNotificationObserver.h"
 #import <sys/stat.h>
 
 #ifndef kMRMediaRemoteNowPlayingInfoRadioStationHash
@@ -22,6 +23,7 @@
     PBMediaRemoteNotificationObserver *mrNotificationObserver;
     PBScrobblerQueueNotificationObserver *queueObserver;
     PBScrobblerStateNotificationObserver *stateObserver;
+    PBThumbsNotificationObserver *thumbsObserver;
     NSManagedObjectContext *temporaryItemsContext;
     LFSession *session;
     __strong RKManagedObjectStore *managedObjectStore;
@@ -53,5 +55,13 @@
 -(void)setState:(scrobbleState_t)state;
 -(void)setAuthResponse:(NSString *)response;
 -(void)setIsRunning:(BOOL)isRunning;
+
+-(NSDictionary *)nowPlayingArtistTitle;
+
+-(void)loveNowPlayingTrack;
+-(void)unloveNowPlayingTrack;
+
+-(void)banNowPlayingTrack;
+-(void)unbanNowPlayingTrack;
 
 @end

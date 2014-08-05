@@ -34,4 +34,6 @@
 -(void)unregisterForNotifications;
 -(NSString *)nowPlayingApplicationIdentifier;
 
+-(NSDictionary *)nowPlayingArtistTitle;
+
 @end

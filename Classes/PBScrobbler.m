@@ -302,6 +302,160 @@
     
 }
 
+#pragma mark Thumbs
+
+// TODO: Refactor, use MediaItem, add persistence
+
+-(NSDictionary *)nowPlayingArtistTitle{
+    
+    return [mrNotificationObserver nowPlayingArtistTitle];
+}
+
+-(void)loveNowPlayingTrack{
+    
+    if (![self nowPlayingArtistTitle]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.love"];
+
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack"];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"loveNowPlayingTrack"];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack"];
+     }];
+
+}
+
+-(void)unloveNowPlayingTrack{
+    
+    if (![self nowPlayingArtistTitle]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unlove"];
+    
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack"];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"unloveNowPlayingTrack"];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack"];
+     }];
+    
+}
+
+-(void)banNowPlayingTrack{
+    
+    if (![self nowPlayingArtistTitle]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.ban"];
+    
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack"];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"banNowPlayingTrack"];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack"];
+     }];
+    
+}
+
+-(void)unbanNowPlayingTrack{
+    
+    if (![self nowPlayingArtistTitle]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unban"];
+    
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack"];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"unbanNowPlayingTrack"];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack"];
+     }];
+    
+}
+
+
 #pragma mark States
 
 -(void)setIsRunning:(BOOL)isRunning{
@@ -340,12 +494,17 @@
     mrNotificationObserver = [[PBMediaRemoteNotificationObserver alloc] init];
     
     mrNotificationObserver.delegate = self;
+    mrNotificationObserver.scrobbler = self;
     
     [center addObserver:mrNotificationObserver selector:@selector(trackDidChange) name:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil];
 
     queueObserver = [[PBScrobblerQueueNotificationObserver alloc] init];
     
     stateObserver = [[PBScrobblerStateNotificationObserver alloc] init];
+    stateObserver.scrobbler = self;
+    
+    thumbsObserver = [[PBThumbsNotificationObserver alloc] init];
+    thumbsObserver.scrobbler = self;
     
     [[[RKObjectManager sharedManager] HTTPClient] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 
@@ -369,6 +528,7 @@
     [mrNotificationObserver unregisterForNotifications];
     [queueObserver unregisterForNotifications];
     [stateObserver unregisterForNotifications];
+    [thumbsObserver unregisterForNotifications];
     [center removeObserver:self];
 }
 

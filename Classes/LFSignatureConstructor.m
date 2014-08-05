@@ -25,6 +25,8 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
 
 + (NSDictionary *)generateParametersWithMediaItem:(PBMediaItem *)mediaItem withSession:(LFSession *)session withMethod:(NSString *)method{
     
+//    Used for single track scrobbling
+    
     if (!mediaItem.title || !mediaItem.artist) {
         
         return nil;
@@ -56,6 +58,8 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
 
 + (NSDictionary *)generateParametersWithMediaItems:(NSArray *)mediaItems withSession:(LFSession *)session withMethod:(NSString *)method{
     
+//    Used for batch scrobbling
+    
     NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithObjectsAndKeys:session.key, @"sk", kLFAPIKey, @"api_key", method, @"method", nil];
     
     unsigned int i = 0;
@@ -76,6 +80,19 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
        
         i++;
     }
+    
+    NSString *sig = [self generateSignatureFromDictionary:ret withSecret:kLFAPISecret];
+    
+    [ret setObject:sig forKey:@"api_sig"];
+    
+    return ret;
+}
+
++ (NSDictionary *)generateParametersWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method{
+    
+//    Used for (un)loving/banning a track
+    
+    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithObjectsAndKeys:session.key, @"sk", kLFAPIKey, @"api_key", method, @"method", [[info allKeys] firstObject], @"artist", [[info allValues] firstObject], @"track", nil];
     
     NSString *sig = [self generateSignatureFromDictionary:ret withSecret:kLFAPISecret];
     

@@ -14,6 +14,7 @@
 		2F086BF419193C0C0084E8B5 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F086BF319193C0C0084E8B5 /* NSString+MD5.m */; };
 		2F2CF4D219823C70005868DD /* FXKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2CF4D019823C70005868DD /* FXKeychain.m */; };
 		2F469754197FD0500004B9E5 /* libRestKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F46974B197FD03D0004B9E5 /* libRestKit.a */; };
+		2F4872D11990D03400F25548 /* PBThumbsNotificationObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4872D01990D03400F25548 /* PBThumbsNotificationObserver.m */; };
 		2FB90F8E19352B3B00DAB862 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB90F8B19352B3B00DAB862 /* CFNetwork.framework */; };
 		2FB90F8F19352B3B00DAB862 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB90F8C19352B3B00DAB862 /* CoreData.framework */; };
 		2FB90F9019352B3B00DAB862 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB90F8D19352B3B00DAB862 /* MobileCoreServices.framework */; };
@@ -98,6 +99,8 @@
 		2F2CF4D019823C70005868DD /* FXKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FXKeychain.m; path = FXKeychain/FXKeychain/FXKeychain.m; sourceTree = "<group>"; };
 		2F2CF4D119823C70005868DD /* FXKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FXKeychain.h; path = FXKeychain/FXKeychain/FXKeychain.h; sourceTree = "<group>"; };
 		2F469743197FD03D0004B9E5 /* RestKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RestKit.xcodeproj; path = RestKit/RestKit.xcodeproj; sourceTree = "<group>"; };
+		2F4872CF1990D03400F25548 /* PBThumbsNotificationObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBThumbsNotificationObserver.h; sourceTree = "<group>"; };
+		2F4872D01990D03400F25548 /* PBThumbsNotificationObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBThumbsNotificationObserver.m; sourceTree = "<group>"; };
 		2F72F6A11983CABB003BA4FB /* versions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versions.h; path = scrobblprefbundle/versions.h; sourceTree = SOURCE_ROOT; };
 		2F80BECB1911107B00AFDB9B /* apikey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apikey.h; sourceTree = "<group>"; };
 		2FA43D6C197854A900BC05A8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -162,6 +165,8 @@
 				2FEC8A4E1976D34600A0A587 /* PBMediaItem.m */,
 				2FEC8A501976D3E600A0A587 /* PBScrobbler.h */,
 				2FEC8A511976D3E600A0A587 /* PBScrobbler.m */,
+				2F4872CF1990D03400F25548 /* PBThumbsNotificationObserver.h */,
+				2F4872D01990D03400F25548 /* PBThumbsNotificationObserver.m */,
 				2FDBC2CF1982D2AF00D2A4D5 /* PBScrobblerQueueNotificationObserver.h */,
 				2FDBC2D01982D2AF00D2A4D5 /* PBScrobblerQueueNotificationObserver.m */,
 				2F007A8A197D2FDA00C9B3AD /* PBMediaRemoteNotificationObserver.h */,
@@ -377,6 +382,7 @@
 				2FEC8A521976D3E600A0A587 /* PBScrobbler.m in Sources */,
 				2F007A8C197D2FDA00C9B3AD /* PBMediaRemoteNotificationObserver.m in Sources */,
 				2F086BF419193C0C0084E8B5 /* NSString+MD5.m in Sources */,
+				2F4872D11990D03400F25548 /* PBThumbsNotificationObserver.m in Sources */,
 				2FDBC2D11982D2B000D2A4D5 /* PBScrobblerQueueNotificationObserver.m in Sources */,
 				8E48C3AC0E4E38B400651569 /* scrobbled.m in Sources */,
 				2FDBB7CA198449E500C062B0 /* PBScrobblerStateNotificationObserver.m in Sources */,
