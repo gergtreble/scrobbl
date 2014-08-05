@@ -33,23 +33,25 @@
     
     BOOL currentState =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
     
-    if (!(currentState & previousState)) {
-        if (!currentState) {
-            [self pauseScrobbler];
-        }
-        else{
-            [self continueScrobbler];
-        }
+    NSLog(@"Defaults did change; currentState: %@", @(currentState));
+    
+    if (currentState) {
+        [self continueScrobbler];
+    }
+    else{
+        [self pauseScrobbler];
     }
 }
 
 -(void)pauseScrobbler{
     
+    NSLog(@"Pausing");
     scrobbler.isPaused = YES;
 }
 
 -(void)continueScrobbler{
     
+    NSLog(@"Continuing");
     scrobbler.isPaused = NO;
 }
 

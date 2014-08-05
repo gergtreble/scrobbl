@@ -24,7 +24,9 @@
         [self registerForNotifications];
         
         [self setIsRunning:YES];
-        self.isPaused = [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
+        
+        // TODO: Use Darwin notifications center instead; polling is bad
+        //self.isPaused = ![[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
 
         self.shouldTerminate = NO;
     }
@@ -87,6 +89,12 @@
 
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
+    /*
+    if (self.isPaused) {
+        NSLog(@"Ignoring track (scrobbler is paused)");
+        return YES;
+    }
+    */
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         NSNumber *scrobbleRadio = [[NSUserDefaults standardUserDefaults] objectForKey:@"scrobbleRadio"];
         NSString *radioHash = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationHash];
@@ -499,7 +507,7 @@
 
     queueObserver = [[PBScrobblerQueueNotificationObserver alloc] init];
     
-    stateObserver = [[PBScrobblerStateNotificationObserver alloc] initWithScrobbler:self];
+    //stateObserver = [[PBScrobblerStateNotificationObserver alloc] initWithScrobbler:self];
     
     thumbsObserver = [[PBThumbsNotificationObserver alloc] initWithScrobbler:self];
     
@@ -524,7 +532,7 @@
     
     [mrNotificationObserver unregisterForNotifications];
     [queueObserver unregisterForNotifications];
-    [stateObserver unregisterForNotifications];
+    //[stateObserver unregisterForNotifications];
     [thumbsObserver unregisterForNotifications];
     [center removeObserver:self];
 }
