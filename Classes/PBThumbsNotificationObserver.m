@@ -28,6 +28,13 @@
     
     [center addObserver:scrobbler selector:@selector(banNowPlayingTrack) name:@"banNowPlayingTrack" object:obj];
     [center addObserver:scrobbler selector:@selector(unbanNowPlayingTrack) name:@"unbanNowPlayingTrack" object:obj];
+    
+    [center addObserver:scrobbler selector:@selector(loveTrack:) name:@"loveTrack" object:obj];
+    [center addObserver:scrobbler selector:@selector(unloveTrack:) name:@"unloveTrack" object:obj];
+    
+    [center addObserver:scrobbler selector:@selector(banTrack:) name:@"banTrack" object:obj];
+    [center addObserver:scrobbler selector:@selector(unbanTrack:) name:@"unbanTrack" object:obj];
+    
 }
 
 -(void)unregisterForNotifications{
@@ -35,9 +42,9 @@
     [center removeObserver:self];
 }
 
--(void)postResult:(BOOL)result forAction:(NSString *)action{
+-(void)postResult:(BOOL)result forAction:(NSString *)action withInfo:(NSDictionary *)info{
     
-    [center postNotificationName:@"thumbsResult" object:@"com.pb.scrobbled" userInfo:@{action:[NSNumber numberWithBool:result]} deliverImmediately:YES];
+    [center postNotificationName:@"thumbsResult" object:@"com.pb.scrobbled" userInfo:@{action:[NSNumber numberWithBool:result], [[info allKeys] firstObject]: [[info allValues] firstObject]} deliverImmediately:YES];
 }
 
 @end

@@ -14,6 +14,6 @@
 -(void)registerForNotifications;
 -(void)unregisterForNotifications;
 
--(void)postResult:(BOOL)result forAction:(NSString *)action;
+-(void)postResult:(BOOL)result forAction:(NSString *)action withInfo:(NSDictionary *)info;
 
 @end

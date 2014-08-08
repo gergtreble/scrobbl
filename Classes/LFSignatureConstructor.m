@@ -101,9 +101,5 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     return ret;
 }
 
-+ (NSDictionary *)generateQueryWithUsername:(NSString *)username withMethod:(NSString *)method{
-    
-    return @{@"user": username, @"method": method, @"limit": @"150", @"api_key": kLFAPIKey}; // Limit is hardcoded for now
-}
 
 @end

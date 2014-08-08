@@ -321,11 +321,13 @@
 
 -(void)loveNowPlayingTrack{
     
-    if (![self nowPlayingArtistTitle]) {
+    NSDictionary *info = [self nowPlayingArtistTitle];
+    
+    if (!info) {
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.love"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unban"];
 
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -339,29 +341,31 @@
                      [self setAuthResponse:@"Error"];
                  }
                  
-                 [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack"];
+                 [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack" withInfo:info];
              }
              
          }
          
          if (![mappingResult count]) {
              
-             [thumbsObserver postResult:YES forAction:@"loveNowPlayingTrack"];
+             [thumbsObserver postResult:YES forAction:@"loveNowPlayingTrack" withInfo:info];
          }
          
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack"];
+         [thumbsObserver postResult:NO forAction:@"loveNowPlayingTrack" withInfo:info];
      }];
 
 }
 
 -(void)unloveNowPlayingTrack{
     
-    if (![self nowPlayingArtistTitle]) {
+    NSDictionary *info = [self nowPlayingArtistTitle];
+    
+    if (!info) {
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unlove"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unban"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -375,29 +379,31 @@
                      [self setAuthResponse:@"Error"];
                  }
                  
-                 [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack"];
+                 [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack" withInfo:info];
              }
              
          }
          
          if (![mappingResult count]) {
              
-             [thumbsObserver postResult:YES forAction:@"unloveNowPlayingTrack"];
+             [thumbsObserver postResult:YES forAction:@"unloveNowPlayingTrack" withInfo:info];
          }
          
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack"];
+         [thumbsObserver postResult:NO forAction:@"unloveNowPlayingTrack" withInfo:info];
      }];
     
 }
 
 -(void)banNowPlayingTrack{
     
-    if (![self nowPlayingArtistTitle]) {
+    NSDictionary *info = [self nowPlayingArtistTitle];
+    
+    if (!info) {
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.ban"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unban"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -411,29 +417,31 @@
                      [self setAuthResponse:@"Error"];
                  }
                  
-                 [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack"];
+                 [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack" withInfo:info];
              }
              
          }
          
          if (![mappingResult count]) {
              
-             [thumbsObserver postResult:YES forAction:@"banNowPlayingTrack"];
+             [thumbsObserver postResult:YES forAction:@"banNowPlayingTrack" withInfo:info];
          }
          
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack"];
+         [thumbsObserver postResult:NO forAction:@"banNowPlayingTrack" withInfo:info];
      }];
     
 }
 
 -(void)unbanNowPlayingTrack{
     
-    if (![self nowPlayingArtistTitle]) {
+    NSDictionary *info = [self nowPlayingArtistTitle];
+    
+    if (!info) {
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unban"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unban"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -447,21 +455,170 @@
                      [self setAuthResponse:@"Error"];
                  }
                  
-                 [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack"];
+                 [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack" withInfo:info];
              }
              
          }
          
          if (![mappingResult count]) {
              
-             [thumbsObserver postResult:YES forAction:@"unbanNowPlayingTrack"];
+             [thumbsObserver postResult:YES forAction:@"unbanNowPlayingTrack" withInfo:info];
          }
          
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack"];
+         [thumbsObserver postResult:NO forAction:@"unbanNowPlayingTrack" withInfo:info];
      }];
     
 }
+
+-(void)loveTrack:(NSNotification *)notification{
+    
+    NSDictionary *info = [notification userInfo];
+    
+    if (![info count]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.love"];
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"loveTrack" withInfo:info];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"loveTrack" withInfo:info];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"loveTrack" withInfo:info];
+     }];
+
+}
+
+-(void)unloveTrack:(NSNotification *)notification{
+    
+    NSDictionary *info = [notification userInfo];
+    
+    if (![info count]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unlove"];
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"unloveTrack" withInfo:info];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"unloveTrack" withInfo:info];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"unloveTrack" withInfo:info];
+     }];
+    
+}
+
+-(void)banTrack:(NSNotification *)notification{
+    
+    NSDictionary *info = [notification userInfo];
+    
+    if (![info count]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.ban"];
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"banTrack" withInfo:info];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"banTrack" withInfo:info];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"banTrack" withInfo:info];
+     }];
+    
+}
+
+-(void)unbanTrack:(NSNotification *)notification{
+    
+    NSDictionary *info = [notification userInfo];
+    
+    if (![info count]) {
+        return;
+    }
+    
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:info withSession:session withMethod:@"track.unban"];
+    
+    [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
+     ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         for (id obj in mappingResult.array) {
+             
+             if ([obj isKindOfClass:[LFError class]]) {
+                 NSLog(@"%@", [obj description]);
+                 
+                 if ([[obj valueForKey:@"error"] integerValue] == 9) {
+                     [self setAuthResponse:@"Error"];
+                 }
+                 
+                 [thumbsObserver postResult:NO forAction:@"unbanTrack" withInfo:info];
+             }
+             
+         }
+         
+         if (![mappingResult count]) {
+             
+             [thumbsObserver postResult:YES forAction:@"unbanTrack" withInfo:info];
+         }
+         
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [thumbsObserver postResult:NO forAction:@"unbanTrack" withInfo:info];
+     }];
+    
+}
+
 
 
 #pragma mark States

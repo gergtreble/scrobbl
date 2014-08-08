@@ -57,6 +57,8 @@
 -(void)setAuthResponse:(NSString *)response;
 -(void)setIsRunning:(BOOL)isRunning;
 
+// Thumbs support
+
 -(NSDictionary *)nowPlayingArtistTitle;
 
 -(void)loveNowPlayingTrack;
@@ -64,5 +66,11 @@
 
 -(void)banNowPlayingTrack;
 -(void)unbanNowPlayingTrack;
+
+-(void)loveTrack:(NSNotification *)notification;
+-(void)unloveTrack:(NSNotification *)notification;
+
+-(void)banTrack:(NSNotification *)notification;
+-(void)unbanTrack:(NSNotification *)notification;
 
 @end
