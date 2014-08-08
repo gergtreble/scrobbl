@@ -243,7 +243,7 @@
     
     unsigned int i = 0;
     
-    for (PBMediaItem *mediaItem in mediaItems) {
+    for (PBMediaItem *mediaItem in [mediaItems copy]) {
         
         if (![mediaItem.artist length] || ![mediaItem.title length]) {
             [mediaItems removeObject:mediaItem];
@@ -312,7 +312,7 @@
 
 #pragma mark Thumbs
 
-// TODO: Refactor, use MediaItem, add persistence
+// TODO: Refactor, use MediaItem
 
 -(NSDictionary *)nowPlayingArtistTitle{
     
@@ -325,7 +325,7 @@
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.love"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.love"];
 
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -361,7 +361,7 @@
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unlove"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unlove"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -397,7 +397,7 @@
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.ban"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.ban"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -433,7 +433,7 @@
         return;
     }
     
-    NSDictionary *params = [LFSignatureConstructor generateParametersWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unban"];
+    NSDictionary *params = [LFSignatureConstructor generateRequestWithInfo:[self nowPlayingArtistTitle] withSession:session withMethod:@"track.unban"];
     
     
     [[RKObjectManager sharedManager] postObject:nil path:@"" parameters:params success:
@@ -654,7 +654,6 @@
                                                         @"album.#text":@"album",
                                                         @"artist.#text":@"artist"}];
     entityMapping.forceCollectionMapping = YES;
-    
     
     RKDynamicMapping *dynamicMapping = [[RKDynamicMapping alloc] init];
     [dynamicMapping addMatcher:[RKObjectMappingMatcher matcherWithPredicate:[NSPredicate predicateWithFormat:@"ignoredMessage.code == 5"] objectMapping:entityMapping]];

@@ -88,7 +88,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     return ret;
 }
 
-+ (NSDictionary *)generateParametersWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method{
++ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method{
     
 //    Used for (un)loving/banning a track
     
@@ -99,6 +99,11 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     [ret setObject:sig forKey:@"api_sig"];
     
     return ret;
+}
+
++ (NSDictionary *)generateQueryWithUsername:(NSString *)username withMethod:(NSString *)method{
+    
+    return @{@"user": username, @"method": method, @"limit": @"150", @"api_key": kLFAPIKey}; // Limit is hardcoded for now
 }
 
 @end

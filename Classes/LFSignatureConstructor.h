@@ -7,9 +7,17 @@
 
 @interface LFSignatureConstructor : NSObject
 
+
 + (NSString *)generateSignatureFromDictionary:(NSDictionary *)dict withSecret:(NSString *)secret;
+
+// Scrobbling/updating nowplaying
+
 + (NSDictionary *)generateParametersWithMediaItem:(PBMediaItem *)mediaItem withSession:(LFSession *)session withMethod:(NSString *)method;
 + (NSDictionary *)generateParametersWithMediaItems:(NSArray *)mediaItems withSession:(LFSession *)session withMethod:(NSString *)method;
-+ (NSDictionary *)generateParametersWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method;
+
+// Loving/banning
+
++ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method;
++ (NSDictionary *)generateQueryWithUsername:(NSString *)username withMethod:(NSString *)method;
 
 @end
