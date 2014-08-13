@@ -32,7 +32,9 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
         return nil;
     }
     
-    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithObjectsAndKeys:session.key, @"sk", kLFAPIKey, @"api_key", method, @"method", nil];
+    NSMutableDictionary *ret = [@{@"sk": session.key,
+                                  @"api_key": kLFAPIKey,
+                                  @"method": method} mutableCopy];
     
     [ret setObject:mediaItem.title forKey:@"track"];
     [ret setObject:mediaItem.artist forKey:@"artist"];
@@ -60,7 +62,9 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     
 //    Used for batch scrobbling
     
-    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithObjectsAndKeys:session.key, @"sk", kLFAPIKey, @"api_key", method, @"method", nil];
+    NSMutableDictionary *ret = [@{@"sk": session.key,
+                                  @"api_key": kLFAPIKey,
+                                  @"method": method} mutableCopy];
     
     unsigned int i = 0;
     for (PBMediaItem *mediaItem in mediaItems) {
@@ -88,11 +92,24 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context){
     return ret;
 }
 
-+ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method{
++ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withAction:(NSString *)action{
     
 //    Used for (un)loving/banning a track
     
-    NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithObjectsAndKeys:session.key, @"sk", kLFAPIKey, @"api_key", method, @"method", [[info allKeys] firstObject], @"artist", [[info allValues] firstObject], @"track", nil];
+    NSDictionary *methods = @{@"loveNowPlayingTrack": @"track.love",
+                            @"loveTrack": @"track.love",
+                            @"unloveNowPlayingTrack": @"track.unlove",
+                            @"unloveTrack": @"track.unlove",
+                            @"banNowPlayingTrack": @"track.ban",
+                            @"banTrack": @"track.ban",
+                            @"unbanNowPlayingTrack": @"track.unban",
+                            @"unbanTrack": @"track.unban"};
+    
+    NSMutableDictionary *ret = [@{@"sk":session.key,
+                                  @"api_key": kLFAPIKey,
+                                  @"method": [methods objectForKey:action],
+                                  @"artist": [[info allKeys] firstObject],
+                                  @"track": [[info allValues] firstObject]} mutableCopy];
     
     NSString *sig = [self generateSignatureFromDictionary:ret withSecret:kLFAPISecret];
     

@@ -17,6 +17,6 @@
 
 // Loving/banning
 
-+ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withMethod:(NSString *)method;
++ (NSDictionary *)generateRequestWithInfo:(NSDictionary *)info withSession:(LFSession *)session withAction:(NSString *)action;
 
 @end

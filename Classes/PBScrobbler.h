@@ -61,16 +61,7 @@
 
 -(NSDictionary *)nowPlayingArtistTitle;
 
--(void)loveNowPlayingTrack;
--(void)unloveNowPlayingTrack;
-
--(void)banNowPlayingTrack;
--(void)unbanNowPlayingTrack;
-
--(void)loveTrack:(NSNotification *)notification;
--(void)unloveTrack:(NSNotification *)notification;
-
--(void)banTrack:(NSNotification *)notification;
--(void)unbanTrack:(NSNotification *)notification;
+-(void)nowPlayingTrackAction:(NSNotification *)notification;
+-(void)trackAction:(NSNotification *)notification;
 
 @end
