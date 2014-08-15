@@ -1,14 +1,21 @@
 #import "PBScrobblerStateNotificationObserver.h"
 
+PBScrobblerStateNotificationObserver *observerRef;
+
+void stateDidChange(){
+    
+    [observerRef stateDidChange];
+}
+
 @implementation PBScrobblerStateNotificationObserver
 
 -(id)initWithScrobbler:(PBScrobbler *)_scrobbler{
     
     self = [super init];
     if (self) {
-        center = [NSNotificationCenter defaultCenter];
-        previousState = [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
+        center = CFNotificationCenterGetDarwinNotifyCenter();
         scrobbler = _scrobbler;
+        observerRef = self;
         [self registerForNotifications];
     }
     return self;
@@ -21,37 +28,35 @@
 
 -(void)registerForNotifications{
     
-    [center addObserver:self selector:@selector(defaultsDidChange) name:NSUserDefaultsDidChangeNotification object:nil];
+    CFNotificationCenterAddObserver(center, NULL, stateDidChange, CFSTR("com.pb.scrobbled.stateDidChange"), NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 }
 
 -(void)unregisterForNotifications{
     
-    [center removeObserver:self];
+    CFNotificationCenterRemoveEveryObserver(center, (__bridge void *)self);
 }
 
--(void)defaultsDidChange{
+-(void)stateDidChange{
     
-    BOOL currentState =  [[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
-    
-    NSLog(@"Defaults did change; currentState: %@", @(currentState));
-    
-    if (currentState) {
+    if (scrobbler.isPaused) {
         [self continueScrobbler];
     }
+    
     else{
         [self pauseScrobbler];
     }
+
 }
 
 -(void)pauseScrobbler{
     
-    NSLog(@"Pausing");
+    NSLog(@"Pausing scrobbler");
     scrobbler.isPaused = YES;
 }
 
 -(void)continueScrobbler{
     
-    NSLog(@"Continuing");
+    NSLog(@"Continuing scrobbler");
     scrobbler.isPaused = NO;
 }
 

@@ -91,12 +91,14 @@
 }
 
 -(void)restartDaemon{
+
     system("killall scrobbled");
 
     [self reload];
 }
 
 -(void)githubButtonPressed{
+
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/comscandiumplumbumd/scrobbl"]];
 }
 

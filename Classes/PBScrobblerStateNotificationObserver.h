@@ -3,8 +3,7 @@
 @class PBScrobbler;
 @interface PBScrobblerStateNotificationObserver : NSObject{
     
-    NSNotificationCenter *center;
-    BOOL previousState;
+    CFNotificationCenterRef center;
     PBScrobbler *scrobbler;
 }
 
@@ -15,6 +14,6 @@
 -(void)pauseScrobbler;
 -(void)continueScrobbler;
 
--(void)defaultsDidChange;
+-(void)stateDidChange;
 
 @end

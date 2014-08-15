@@ -21,7 +21,6 @@
             <string>scrobbled settings</string>
         </dict>
 
-<!--
         <dict>
             <key>cell</key>
             <string>PSSwitchCell</string>
@@ -31,7 +30,9 @@
             <string>org.nodomain.scrobbled</string>
             <key>key</key>
             <string>scrobblerEnabled</string>
-        </dict> -->
+            <key>PostNotification</key>
+            <string>com.pb.scrobbled.stateDidChange</string>
+        </dict>
 
         <dict>
             <key>cell</key>

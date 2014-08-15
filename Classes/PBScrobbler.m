@@ -15,9 +15,6 @@
         RKLogConfigureByName("RestKit/*", RKLogLevelCritical);
         
         [self configureMapping];
-        
-        // Reachability status block already does this for us
-        //[self authenticate];
 
         submissionsCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"totalScrobbled"] longValue];
 
@@ -25,8 +22,7 @@
         
         [self setIsRunning:YES];
         
-        // TODO: Use Darwin notifications center instead; polling is bad
-        //self.isPaused = ![[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
+        self.isPaused = ![[[NSUserDefaults standardUserDefaults] objectForKey:@"scrobblerEnabled"] boolValue];
 
         self.shouldTerminate = NO;
     }
@@ -89,18 +85,19 @@
 
 -(BOOL)shouldIgnoreTrack:(NSDictionary *)info{
     
-    /*
+    
     if (self.isPaused) {
+        //        If scrobbler is paused
         NSLog(@"Ignoring track (scrobbler is paused)");
         return YES;
     }
-    */
+    
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) {
         NSNumber *scrobbleRadio = [[NSUserDefaults standardUserDefaults] objectForKey:@"scrobbleRadio"];
         NSString *radioHash = [info objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoRadioStationHash];
         NSLog(@"radio id: %@, scrobbleRadio: %@", radioHash, scrobbleRadio);
         if (radioHash && ![scrobbleRadio boolValue]) {
-            //        1. If it is a radio track and we disallowed to scrobble these
+            //        If it is a radio track and we disallowed to scrobble these
             NSLog(@"Ignoring track (radio)");
             return YES;
         }
@@ -115,7 +112,7 @@
     NSNumber *inDefaults = [[NSUserDefaults standardUserDefaults] objectForKey:appString];
     
     if ([inDefaults boolValue]) {
-        //        2. If we disabled scrobbling for a certain application
+        //        If we disabled scrobbling for a certain application
         NSLog(@"Ignoring track (exclusion)");
         return YES;
     }
@@ -434,7 +431,7 @@
 
     queueObserver = [[PBScrobblerQueueNotificationObserver alloc] init];
     
-    //stateObserver = [[PBScrobblerStateNotificationObserver alloc] initWithScrobbler:self];
+    stateObserver = [[PBScrobblerStateNotificationObserver alloc] initWithScrobbler:self];
     
     thumbsObserver = [[PBThumbsNotificationObserver alloc] initWithScrobbler:self];
     
@@ -459,7 +456,7 @@
     
     [mrNotificationObserver unregisterForNotifications];
     [queueObserver unregisterForNotifications];
-    //[stateObserver unregisterForNotifications];
+    [stateObserver unregisterForNotifications];
     [thumbsObserver unregisterForNotifications];
     [center removeObserver:self];
 }
