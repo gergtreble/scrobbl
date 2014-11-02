@@ -24,13 +24,13 @@ check-dpkg:
 	command -v dpkg-deb >/dev/null 2>&1 || { echo >&2 "Need dpkg to build a deb, aborting"; exit 1; }
 
 daemon-deb: check-dpkg
-	mkdir -p ./Build/scrobbled/DEBIAN ./Build/scrobbled/System/Library/LaunchDaemons/ \
+	mkdir -p ./Build/scrobbled/DEBIAN ./Build/scrobbled/Library/LaunchDaemons/ \
 		./Build/scrobbled/Applications/scrobble.app/
 
 	cp ./debian/control ./Build/scrobbled/DEBIAN/control
 	echo "Version: $(VERSION)" >> ./Build/scrobbled/DEBIAN/control
 
-	mv ./Build/scrobbled.app/org.nodomain.scrobbled.plist ./Build/scrobbled/System/Library/LaunchDaemons
+	mv ./Build/scrobbled.app/org.nodomain.scrobbled.plist ./Build/scrobbled/Library/LaunchDaemons
 	mv ./Build/scrobbled.app/* ./Build/scrobbled/Applications/scrobble.app/
 	cp ./debian/postinst ./Build/scrobbled/DEBIAN/
 	cp ./debian/prerm ./Build/scrobbled/DEBIAN/

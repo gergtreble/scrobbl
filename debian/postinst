@@ -4,8 +4,15 @@ cydia=($CYDIA)
 
 if [ "$1" = "configure" ]; then
 
-    chown root:wheel /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
-    launchctl load /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
+    if [ -e /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist ]; then
+
+        launchctl unload /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
+        rm /System/Library/LaunchDaemons/org.nodomain.scrobbled.plist
+
+    fi
+
+    chown root:wheel /Library/LaunchDaemons/org.nodomain.scrobbled.plist
+    launchctl load /Library/LaunchDaemons/org.nodomain.scrobbled.plist
   echo "Starting Scrobbled..."
 fi
 
